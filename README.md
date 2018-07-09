@@ -1,1 +1,1 @@
-# data608_files
+# CUNY data files
