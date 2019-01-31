@@ -22,14 +22,6 @@
 
 </style>
 
-```{r echo=FALSE}
-library(fpp2)
-library(seasonal)
-library(grid)
-library(gridExtra)
-```
-
-
 DATA 624 - Forecasting: Principles and Practice - Chapter 6
 ========================================================
 author: John Grando
@@ -39,6 +31,13 @@ autosize: true
 <div class='center-text-large'>
   <p>Time Series Decomposition</p>
 </div>
+
+```{r echo=FALSE}
+library(fpp2)
+library(seasonal)
+library(grid)
+library(gridExtra)
+```
 
 Overview - Time Series Decomposition
 ========================================================
@@ -104,7 +103,7 @@ Moving Averages of Moving Averages can even be taken to further smooth the trend
 <table>
 <tr>
 <td>
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, fig.align='center', error=FALSE}
 autoplot(elecequip, series="Data") +
   autolayer(ma(elecequip, 4), series="4-MA") +
   autolayer(ma(ma(elecequip, 4), 2), series="2x4-MA") +
