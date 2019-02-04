@@ -1,4 +1,9 @@
 <style>
+
+body {
+  background-color:#97D8B2;
+}
+
 .reveal h1 {
   line-height: 100px;
 }
@@ -16,7 +21,7 @@
   width:100%
 }
 
-.reveal table, .reveal table td {
+.reveal table, .reveal table td, .reveal table th {
   border-style: none;
 }
 
@@ -53,8 +58,10 @@ Decomposition of data into separate parts
 </ul>
 </td>
 <td style="vertical-align:middle;">
-```{r fig.align='center', echo=FALSE}
-stl(elecequip, s.window = 'periodic', robust = TRUE) %>% autoplot() + theme(strip.text = element_text(size = 25))
+```{r fig.align='center', fig.width=14, echo=FALSE}
+stl(elecequip, s.window = 'periodic', robust = TRUE) %>% autoplot() + 
+  theme(strip.text = element_text(size = 25),
+        plot.background = element_rect(fill = 'grey79'))
 ```
 </td>
 </tr>
@@ -77,7 +84,7 @@ MAs are ussed to estimate trend-cycles and are simply an average value over a se
 <table>
 <tr>
 <td>
-```{r fig.width=16, fig.height=8, fig.align='center', echo=FALSE}
+```{r fig.width=16, fig.height=7, fig.align='center', echo=FALSE}
 autoplot(elecsales, series="Data") +
   autolayer(ma(elecsales,3), series="3-MA", size = 2) +
   autolayer(ma(elecsales,5), series="5-MA", size = 2) +
@@ -89,7 +96,9 @@ autoplot(elecsales, series="Data") +
   theme(axis.title = element_text(size=20),
         title = element_text(size=40),
         axis.text = element_text(size=12),
-        legend.text = element_text(size=16))
+        legend.text = element_text(size=16)) + 
+  theme(strip.text = element_text(size = 25),
+        plot.background = element_rect(fill = 'grey79'))
 ```
 </td>
 </tr>
@@ -103,14 +112,19 @@ Moving Averages of Moving Averages can even be taken to further smooth the trend
 <table>
 <tr>
 <td>
-```{r echo=FALSE, warning=FALSE, fig.align='center', error=FALSE}
+```{r echo=FALSE, warning=FALSE, fig.width=14, fig.align='center', error=FALSE}
 autoplot(elecequip, series="Data") +
   autolayer(ma(elecequip, 4), series="4-MA") +
   autolayer(ma(ma(elecequip, 4), 2), series="2x4-MA") +
   xlab("Year") + ylab("New orders index") +
   ggtitle("Electrical equipment manufacturing (Euro area)") +
   scale_colour_manual(values=c("Data"="grey", "4-MA"="blue", "2x4-MA"="red"),
-                      breaks=c("Data", "4-MA", "2x4-MA"))
+                      breaks=c("Data", "4-MA", "2x4-MA")) + 
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 ```
 </td>
 </tr>
@@ -149,13 +163,23 @@ X11
 
 Similar to classical decomposition; however, has many additional steps to account for drawbacks using the classical method.
 
-```{r fig.height=6, fig.width=16, fig.align='center', echo=FALSE}
+```{r fig.height=6, fig.width=19, fig.align='center', echo=FALSE}
 elecequip %>% seas(x11="") -> fit
 p1 <- elecequip %>% decompose(type="multiplicative") %>%
   autoplot() + xlab("Year") +
-  ggtitle("Classical multiplicative decomposition")
+  ggtitle("Classical multiplicative decomposition") + 
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 p2 <- autoplot(fit) +
-  ggtitle("X11 decomposition")
+  ggtitle("X11 decomposition") + 
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=2)
 ```
 
@@ -165,14 +189,24 @@ SEATS
 
 <strong>S</strong>easonal <strong>E</strong>xtraction in <strong>A</strong>RIMA <strong>T</strong>ime <strong>S</strong>eries.  Only works with quarterly and monthly data, and details of methodology beyond the scope of this book.
 
-```{r fig.height=6, fig.width=16, fig.align='center', echo=FALSE}
+```{r fig.height=6, fig.width=19, fig.align='center', echo=FALSE}
 elecequip %>% seas(x11="") -> fit
 p1 <- elecequip %>% decompose(type="multiplicative") %>%
   autoplot() + xlab("Year") +
-  ggtitle("Classical multiplicative decomposition")
+  ggtitle("Classical multiplicative decomposition") + 
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 p2 <- elecequip %>% seas() %>%
 autoplot() +
-  ggtitle("SEATS decomposition")
+  ggtitle("SEATS decomposition") + 
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=2)
 ```
 
@@ -181,14 +215,24 @@ STL
 
 <strong>S</strong>easonal and <strong>T</strong>rend decomposition using <strong>L</strong>oess.  Has many advantages over other methods which inludes; handling any type of seasonality, changing seasonality over time, trend smoothness control, and robust to outliers.  However, it has some disadvantages; only additive decomposition, difficulty with calendar variations.
 
-```{r fig.height=6, fig.width=16, fig.align='center', echo=FALSE}
+```{r fig.height=6, fig.width=19, fig.align='center', echo=FALSE}
 elecequip %>% seas(x11="") -> fit
 p1 <- elecequip %>% decompose(type="multiplicative") %>%
   autoplot() + xlab("Year") +
-  ggtitle("Classical multiplicative decomposition")
+  ggtitle("Classical multiplicative decomposition") +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 p2 <- elecequip %>%
   stl(t.window=13, s.window="periodic", robust=TRUE) %>%
-  autoplot()
+  autoplot() +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=2)
 ```
 
@@ -224,8 +268,18 @@ changing_t_window=11
 changing_s_window=7
 snaive_forecast <- snaive(elecequip)
 stlf_changing_naive_robust_forecast <- stlf(elecequip, method='naive', t.window=changing_t_window, s.window=changing_s_window, robust = TRUE)
-p1 <- autoplot(snaive_forecast)
-p2 <- autoplot(stlf_changing_naive_robust_forecast)
+p1 <- autoplot(snaive_forecast) +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
+p2 <- autoplot(stlf_changing_naive_robust_forecast) +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=1)
 ```
 
