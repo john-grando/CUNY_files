@@ -357,14 +357,14 @@ Inflation data, based on the Consumer Price Index, is another data point that ch
 ```{r fig.height=6, fig.width=16, fig.align='center', echo=FALSE}
 
 inflation <- read.ts("https://raw.githubusercontent.com/stiltsie/cuny/master/inflation.csv", header = TRUE, sep = ",")
-inflation_ts <- ts(unemployment[1,], start = c(2016, 1), frequency = 12)
+inflation_ts <- ts(inflation[1,], start = c(2016, 1), frequency = 12)
 
 inflation_dec <- decompose(inflation_ts, type="multiplicative")
 inflation_dec2 <- seas(inflation_ts)
 
-p1 <- unemployment_ts %>% decompose(type="multiplicative") %>%
+p1 <- inflation_ts %>% decompose(type="multiplicative") %>%
   autoplot() + xlab("Year") + ggtitle("Inflation data: classical multiplicative decomposition")
-p2 <- unemployment_ts %>% seas(x11="") %>% autoplot() + ggtitle("Inflation data: X11 decomposition")
+p2 <- inflation_ts %>% seas(x11="") %>% autoplot() + ggtitle("Inflation data: X11 decomposition")
 
 grid.arrange(p1, p2, ncol=2)
 
