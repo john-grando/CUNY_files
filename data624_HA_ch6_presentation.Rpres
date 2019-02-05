@@ -42,6 +42,11 @@ library(fpp2)
 library(seasonal)
 library(grid)
 library(gridExtra)
+library(zoo)
+library(tseries)
+library(forecast)
+library(stats)
+
 ```
 
 Overview - Time Series Decomposition
