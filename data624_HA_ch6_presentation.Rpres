@@ -282,5 +282,46 @@ p2 <- autoplot(stlf_changing_naive_robust_forecast) +
         legend.text = element_text(size=16)) + 
   theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=1)
+
+Case Study: U.S. Unemployment Figures
+========================================================
+
+The Bureau of Labor Statistics uses seasonal adjustment when it publishes unemployment figures. It adjusts the data using the SEATS method. Below we show the decomposition of the raw data using the traditional (multiplicative method) and SEATS method.
+
+<table>
+<tr>
+<td>
+```{r fig.height=6, fig.width=16, fig.align='center', echo=FALSE}
+
+unemployment <- read.ts("https://raw.githubusercontent.com/stiltsie/cuny/master/unemployment.csv", header = TRUE, sep = ",")
+unemployment_ts <- ts(unemployment[1,], start = c(2015, 1), frequency = 12)
+
+unemployment_dec <- decompose(unemployment_ts, type="multiplicative")
+unemployment_dec2 <- seas(unemployment_ts)
+
+p1 <- unemployment_ts %>% decompose(type="multiplicative") %>%
+  autoplot() + xlab("Year") + ggtitle("Unemployment data: classical multiplicative decomposition")
+p2 <- unemployment_ts %>% seas() %>% autoplot() + ggtitle("Unemployment data: SEATS decomposition")
+
+grid.arrange(p1, p2, ncol=2)
+
+```
+</td>
+</tr>
+</table>
+
+U.S. Unemployment Forecast
+========================================================
+
+```{r fig.height=8, fig.width=18, fig.align='center', echo=FALSE}
+changing_t_window=11
+changing_s_window=7
+snaive_forecast <- snaive(unemployment_ts)
+stlf_changing_naive_robust_forecast <- stlf(unemployment_ts, method='naive', t.window=changing_t_window, s.window=changing_s_window, robust = TRUE)
+p1 <- autoplot(snaive_forecast)
+p2 <- autoplot(stlf_changing_naive_robust_forecast)
+grid.arrange(p1, p2, ncol=1)
+```
+
 ```
 
