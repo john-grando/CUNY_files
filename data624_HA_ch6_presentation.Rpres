@@ -282,6 +282,7 @@ p2 <- autoplot(stlf_changing_naive_robust_forecast) +
         legend.text = element_text(size=16)) + 
   theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=1)
+```
 
 Case Study: U.S. Unemployment Figures
 ========================================================
@@ -323,5 +324,5 @@ p2 <- autoplot(stlf_changing_naive_robust_forecast)
 grid.arrange(p1, p2, ncol=1)
 ```
 
-```
+
 
