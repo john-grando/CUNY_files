@@ -29,7 +29,7 @@ body {
 
 DATA 624 - Forecasting: Principles and Practice - Chapter 6
 ========================================================
-author: John Grando
+author: John Grando & Alex Low
 date: 2/5/19
 autosize: true
 
@@ -152,7 +152,7 @@ Classical Decomposition
     <li>Compute Trend Cycle using MA (even m: 2xm, odd m:m) where m is the seasonal period <br>$\hat{T_{t}}$</li>
     <li>Calculate detrended series by division <br>$\frac{y_{t}}{\hat{T_{t}}}$</li>
     <li>Estimate seasonal component <br>$\hat{S_{t}}$</li>
-    <li>Calculate remainder by subracting all the above from the data <br>$\frac{\hat{R_{t}} = y_{t}}{\left( \hat{T_{t}}\hat{S_{t}} \right)}$</li>
+    <li>Calculate remainder by subracting all the above from the data <br>$R_{t} = \frac{y_{t}}{\left( \hat{T_{t}}\hat{S_{t}} \right)}$</li>
   </ol>
 </td>
 </tr>
@@ -228,6 +228,7 @@ p1 <- elecequip %>% decompose(type="multiplicative") %>%
 p2 <- elecequip %>%
   stl(t.window=13, s.window="periodic", robust=TRUE) %>%
   autoplot() +
+  ggtitle("STL Decompostion") +
   theme(axis.title = element_text(size=20),
         title = element_text(size=20),
         axis.text = element_text(size=12),
