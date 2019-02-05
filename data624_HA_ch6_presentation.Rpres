@@ -84,7 +84,7 @@ Formulaic Representation
 Moving Averages (MA)
 ========================================================
 
-MAs are ussed to estimate trend-cycles and are simply an average value over a set time period
+MAs are used to estimate trend-cycles and are simply an average value over a set time period
 
 <table>
 <tr>
@@ -112,7 +112,7 @@ autoplot(elecsales, series="Data") +
 Moving Averages of Moving Averages (MA #x#)
 ========================================================
 
-Moving Averages of Moving Averages can even be taken to further smooth the trend.  The first MA has been downshifted to a value of 4 to show a noticable difference between curves.
+Moving Averages of Moving Averages can even be taken to further smooth the trend.  Note, the first MA has been downshifted to a value of 4 (usually m=12 for monthly data) to show a noticable difference between curves.
 
 <table>
 <tr>
@@ -134,6 +134,25 @@ autoplot(elecequip, series="Data") +
 </td>
 </tr>
 </table>
+
+Seasonal Components
+========================================================
+
+Seasonal components can be calculated by averaging the detrended values for that season. For example, with monthly data, the seasonal component for March is the average of all the detrended March values in the data. These seasonal component values are then adjusted to ensure that they add to zero for additive models, and to approximately to `m` for multiplicative models
+
+```{r fig.height=6, fig.width=18, fig.align='center', echo=FALSE}
+library(seasonal)
+elecequip %>% seas(x11="") -> fit
+p2 <- fit %>% seasonal() %>% ggsubseriesplot() + ylab("Seasonal") + ggtitle("Seasonal Plot") + 
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
+grid.arrange(p2, ncol=1)
+```
+
+
 
 Classical Decomposition
 ========================================================
@@ -157,7 +176,7 @@ Classical Decomposition
     <li>Compute Trend Cycle using MA (even m: 2xm, odd m:m) where m is the seasonal period <br>$\hat{T_{t}}$</li>
     <li>Calculate detrended series by division <br>$\frac{y_{t}}{\hat{T_{t}}}$</li>
     <li>Estimate seasonal component <br>$\hat{S_{t}}$</li>
-    <li>Calculate remainder by subracting all the above from the data <br>$R_{t} = \frac{y_{t}}{\left( \hat{T_{t}}\hat{S_{t}} \right)}$</li>
+    <li>Calculate remainder by dividing the calculated trends from the data <br>$R_{t} = \frac{y_{t}}{\left( \hat{T_{t}}\hat{S_{t}} \right)}$</li>
   </ol>
 </td>
 </tr>
@@ -264,7 +283,7 @@ Forecasts can be easily made using the decomposed components which can be rewrit
 </tr>
 </table>
 
-Then, the seasonal component and seasonally adjusted component can be forecast separately
+Then, the seasonal component and seasonally adjusted component can be forecast separately.  Note, It is usually assumed that the seasonal component is unchanging, or changing extremely slowly, so it is forecast by simply taking the last year of the estimated component. 
 
 Forecasting
 ========================================================

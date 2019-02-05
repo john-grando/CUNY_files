@@ -70,7 +70,7 @@ Formulaic Representation
 Moving Averages (MA)
 ========================================================
 
-MAs are ussed to estimate trend-cycles and are simply an average value over a set time period
+MAs are used to estimate trend-cycles and are simply an average value over a set time period
 
 <table>
 <tr>
@@ -83,7 +83,7 @@ MAs are ussed to estimate trend-cycles and are simply an average value over a se
 Moving Averages of Moving Averages (MA #x#)
 ========================================================
 
-Moving Averages of Moving Averages can even be taken to further smooth the trend.  The first MA has been downshifted to a value of 4 to show a noticable difference between curves.
+Moving Averages of Moving Averages can even be taken to further smooth the trend.  Note, the first MA has been downshifted to a value of 4 (usually m=12 for monthly data) to show a noticable difference between curves.
 
 <table>
 <tr>
@@ -92,6 +92,15 @@ Moving Averages of Moving Averages can even be taken to further smooth the trend
 </td>
 </tr>
 </table>
+
+Seasonal Components
+========================================================
+
+Seasonal components can be calculated by averaging the detrended values for that season. For example, with monthly data, the seasonal component for March is the average of all the detrended March values in the data. These seasonal component values are then adjusted to ensure that they add to zero for additive models, and to approximately to `m` for multiplicative models
+
+<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
+
+
 
 Classical Decomposition
 ========================================================
@@ -115,7 +124,7 @@ Classical Decomposition
     <li>Compute Trend Cycle using MA (even m: 2xm, odd m:m) where m is the seasonal period <br>$\hat{T_{t}}$</li>
     <li>Calculate detrended series by division <br>$\frac{y_{t}}{\hat{T_{t}}}$</li>
     <li>Estimate seasonal component <br>$\hat{S_{t}}$</li>
-    <li>Calculate remainder by subracting all the above from the data <br>$R_{t} = \frac{y_{t}}{\left( \hat{T_{t}}\hat{S_{t}} \right)}$</li>
+    <li>Calculate remainder by dividing the calculated trends from the data <br>$R_{t} = \frac{y_{t}}{\left( \hat{T_{t}}\hat{S_{t}} \right)}$</li>
   </ol>
 </td>
 </tr>
@@ -126,7 +135,7 @@ X11
 
 Similar to classical decomposition; however, has many additional steps to account for drawbacks using the classical method.
 
-<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
+<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 
 SEATS
@@ -134,14 +143,14 @@ SEATS
 
 <strong>S</strong>easonal <strong>E</strong>xtraction in <strong>A</strong>RIMA <strong>T</strong>ime <strong>S</strong>eries.  Only works with quarterly and monthly data, and details of methodology beyond the scope of this book.
 
-<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
+<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
 
 STL
 ========================================================
 
 <strong>S</strong>easonal and <strong>T</strong>rend decomposition using <strong>L</strong>oess.  Has many advantages over other methods which inludes; handling any type of seasonality, changing seasonality over time, trend smoothness control, and robust to outliers.  However, it has some disadvantages; only additive decomposition, difficulty with calendar variations.
 
-<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" style="display: block; margin: auto;" />
+<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 Forecasting
 ========================================================
@@ -165,10 +174,30 @@ Forecasts can be easily made using the decomposed components which can be rewrit
 </tr>
 </table>
 
-Then, the seasonal component and seasonally adjusted component can be forecast separately
+Then, the seasonal component and seasonally adjusted component can be forecast separately.  Note, It is usually assumed that the seasonal component is unchanging, or changing extremely slowly, so it is forecast by simply taking the last year of the estimated component. 
 
 Forecasting
 ========================================================
 
-<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
+<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" />
+
+Case Study: U.S. Unemployment Figures
+========================================================
+
+The Bureau of Labor Statistics uses seasonal adjustment when it publishes unemployment figures. It adjusts the data using the SEATS method. Below we show the decomposition of the raw data using the traditional (multiplicative method) and SEATS method.
+
+<table>
+<tr>
+<td>
+<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
+</td>
+</tr>
+</table>
+
+U.S. Unemployment Forecast
+========================================================
+
+<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
+
+
 
