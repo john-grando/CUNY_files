@@ -163,6 +163,24 @@ Classical Decomposition
 </tr>
 </table>
 
+Limitations of Classical Decomposition Method
+========================================================
+
+<table>
+<tr>
+<td>
+
+<br><br>
+  <ol>
+    <li>Data Gaps at Beginning/End of Time Series </li>
+    <li>Over-Smoothing of Rapid Changes</li>
+    <li>Assumes Same Seasonal Changes Over Time</li>
+    <li>Does Not Adapt to Unusual Values</li>
+  </ol>
+</td>
+</tr>
+</table>
+
 X11
 ========================================================
 
@@ -328,6 +346,44 @@ p1 <- autoplot(snaive_forecast)
 p2 <- autoplot(stlf_changing_naive_robust_forecast)
 grid.arrange(p1, p2, ncol=1)
 ```
+Case Study: U.S. Inflation Figures
+========================================================
 
+Inflation data, based on the Consumer Price Index, is another data point that changes by season. Again it adjusts the data using the SEATS method but instead we look below at the X11 method as an example.
+
+<table>
+<tr>
+<td>
+```{r fig.height=6, fig.width=16, fig.align='center', echo=FALSE}
+
+inflation <- read.ts("https://raw.githubusercontent.com/stiltsie/cuny/master/inflation.csv", header = TRUE, sep = ",")
+inflation_ts <- ts(unemployment[1,], start = c(2016, 1), frequency = 12)
+
+inflation_dec <- decompose(inflation_ts, type="multiplicative")
+inflation_dec2 <- seas(inflation_ts)
+
+p1 <- unemployment_ts %>% decompose(type="multiplicative") %>%
+  autoplot() + xlab("Year") + ggtitle("Inflation data: classical multiplicative decomposition")
+p2 <- unemployment_ts %>% seas(x11="") %>% autoplot() + ggtitle("Inflation data: X11 decomposition")
+
+grid.arrange(p1, p2, ncol=2)
+
+```
+</td>
+</tr>
+</table>
+
+U.S. Inflation Forecast
+========================================================
+
+```{r fig.height=8, fig.width=18, fig.align='center', echo=FALSE}
+changing_t_window=11
+changing_s_window=7
+snaive_forecast <- snaive(inflation_ts)
+stlf_changing_naive_robust_forecast <- stlf(inflation_ts, method='naive', t.window=changing_t_window, s.window=changing_s_window, robust = TRUE)
+p1 <- autoplot(snaive_forecast)
+p2 <- autoplot(stlf_changing_naive_robust_forecast)
+grid.arrange(p1, p2, ncol=1)
+```
 
 
