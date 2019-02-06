@@ -5,7 +5,13 @@ body {
 }
 
 .reveal h1 {
-  line-height: 100px;
+  font-size: 50px;
+  line-height: 60px;
+}
+
+.reveal h3 {
+  font-size: 40px;
+  line-height: 45px;
 }
 
 .reveal td {
@@ -13,7 +19,7 @@ body {
 }
 
 .center-text-large p {
-  font-size: 90px;
+  font-size: 60px;
   text-align: center;
 }
 
@@ -23,6 +29,11 @@ body {
 
 .reveal table, .reveal table td, .reveal table th {
   border-style: none;
+}
+
+.reveal p {
+  line-height: 35px;
+  font-size: 30px;
 }
 
 </style>
@@ -55,7 +66,7 @@ Overview - Time Series Decomposition
 Decomposition of data into separate parts
 <table>
 <tr>
-<td style="vertical-align:middle;" width=15%>
+<td style="vertical-align:middle;" width=25%>
 <ul>
 <li>Trend-cycle (Trend)</li>
 <li>Seasonality</li>
@@ -63,7 +74,7 @@ Decomposition of data into separate parts
 </ul>
 </td>
 <td style="vertical-align:middle;">
-```{r fig.align='center', fig.width=14, echo=FALSE}
+```{r fig.align='center', fig.height=7, fig.width=10, echo=FALSE}
 stl(elecequip, s.window = 'periodic', robust = TRUE) %>% autoplot() + 
   theme(strip.text = element_text(size = 25),
         plot.background = element_rect(fill = 'grey79'))
@@ -205,21 +216,23 @@ X11
 
 Similar to classical decomposition; however, has many additional steps to account for drawbacks using the classical method.
 
-```{r fig.height=6, fig.width=19, fig.align='center', echo=FALSE}
+```{r fig.height=10, fig.width=19, fig.align='center', echo=FALSE}
 elecequip %>% seas(x11="") -> fit
 p1 <- elecequip %>% decompose(type="multiplicative") %>%
   autoplot() + xlab("Year") +
   ggtitle("Classical multiplicative decomposition") + 
   theme(axis.title = element_text(size=20),
         title = element_text(size=20),
-        axis.text = element_text(size=12),
+        axis.text = element_text(size=14),
+        strip.text = element_text(size=16),
         legend.text = element_text(size=16)) + 
   theme(plot.background = element_rect(fill = 'grey79'))
 p2 <- autoplot(fit) +
   ggtitle("X11 decomposition") + 
   theme(axis.title = element_text(size=20),
         title = element_text(size=20),
-        axis.text = element_text(size=12),
+        axis.text = element_text(size=14),
+        strip.text = element_text(size=16),
         legend.text = element_text(size=16)) + 
   theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=2)
@@ -231,14 +244,15 @@ SEATS
 
 <strong>S</strong>easonal <strong>E</strong>xtraction in <strong>A</strong>RIMA <strong>T</strong>ime <strong>S</strong>eries.  Only works with quarterly and monthly data, and details of methodology beyond the scope of this book.
 
-```{r fig.height=6, fig.width=19, fig.align='center', echo=FALSE}
+```{r fig.height=10, fig.width=19, fig.align='center', echo=FALSE}
 elecequip %>% seas(x11="") -> fit
 p1 <- elecequip %>% decompose(type="multiplicative") %>%
   autoplot() + xlab("Year") +
   ggtitle("Classical multiplicative decomposition") + 
   theme(axis.title = element_text(size=20),
         title = element_text(size=20),
-        axis.text = element_text(size=12),
+        axis.text = element_text(size=14),
+        strip.text = element_text(size=16),
         legend.text = element_text(size=16)) + 
   theme(plot.background = element_rect(fill = 'grey79'))
 p2 <- elecequip %>% seas() %>%
@@ -246,7 +260,8 @@ autoplot() +
   ggtitle("SEATS decomposition") + 
   theme(axis.title = element_text(size=20),
         title = element_text(size=20),
-        axis.text = element_text(size=12),
+        axis.text = element_text(size=14),
+        strip.text = element_text(size=16),
         legend.text = element_text(size=16)) + 
   theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=2)
@@ -257,14 +272,15 @@ STL
 
 <strong>S</strong>easonal and <strong>T</strong>rend decomposition using <strong>L</strong>oess.  Has many advantages over other methods which inludes; handling any type of seasonality, changing seasonality over time, trend smoothness control, and robust to outliers.  However, it has some disadvantages; only additive decomposition, difficulty with calendar variations.
 
-```{r fig.height=6, fig.width=19, fig.align='center', echo=FALSE}
+```{r fig.height=8, fig.width=18, fig.align='center', echo=FALSE}
 elecequip %>% seas(x11="") -> fit
 p1 <- elecequip %>% decompose(type="multiplicative") %>%
   autoplot() + xlab("Year") +
   ggtitle("Classical multiplicative decomposition") +
   theme(axis.title = element_text(size=20),
         title = element_text(size=20),
-        axis.text = element_text(size=12),
+        axis.text = element_text(size=14),
+        strip.text = element_text(size=16),
         legend.text = element_text(size=16)) + 
   theme(plot.background = element_rect(fill = 'grey79'))
 p2 <- elecequip %>%
@@ -273,7 +289,8 @@ p2 <- elecequip %>%
   ggtitle("STL Decompostion") +
   theme(axis.title = element_text(size=20),
         title = element_text(size=20),
-        axis.text = element_text(size=12),
+        axis.text = element_text(size=14),
+        strip.text = element_text(size=16),
         legend.text = element_text(size=16)) + 
   theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=2)
@@ -306,7 +323,7 @@ Then, the seasonal component and seasonally adjusted component can be forecast s
 Forecasting
 ========================================================
 
-```{r fig.height=8, fig.width=18, fig.align='center', echo=FALSE}
+```{r fig.height=9, fig.width=17, fig.align='center', echo=FALSE}
 changing_t_window=11
 changing_s_window=7
 snaive_forecast <- snaive(elecequip)
@@ -334,7 +351,7 @@ The Bureau of Labor Statistics uses seasonal adjustment when it publishes unempl
 <table>
 <tr>
 <td>
-```{r fig.height=6, fig.width=16, fig.align='center', echo=FALSE}
+```{r fig.height=8, fig.width=18, fig.align='center', echo=FALSE}
 
 unemployment <- read.ts("https://raw.githubusercontent.com/stiltsie/cuny/master/unemployment.csv", header = TRUE, sep = ",")
 unemployment_ts <- ts(unemployment[1,], start = c(2015, 1), frequency = 12)
@@ -343,8 +360,20 @@ unemployment_dec <- decompose(unemployment_ts, type="multiplicative")
 unemployment_dec2 <- seas(unemployment_ts)
 
 p1 <- unemployment_ts %>% decompose(type="multiplicative") %>%
-  autoplot() + xlab("Year") + ggtitle("Unemployment data: classical multiplicative decomposition")
-p2 <- unemployment_ts %>% seas() %>% autoplot() + ggtitle("Unemployment data: SEATS decomposition")
+  autoplot() + xlab("Year") + ggtitle("Unemployment data: classical multiplicative decomposition")  +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=18),
+        axis.text = element_text(size=14),
+        strip.text = element_text(size=16),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
+p2 <- unemployment_ts %>% seas() %>% autoplot() + ggtitle("Unemployment data: SEATS decomposition") +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=18),
+        axis.text = element_text(size=14),
+        strip.text = element_text(size=16),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 
 grid.arrange(p1, p2, ncol=2)
 
@@ -356,13 +385,23 @@ grid.arrange(p1, p2, ncol=2)
 U.S. Unemployment Forecast
 ========================================================
 
-```{r fig.height=8, fig.width=18, fig.align='center', echo=FALSE}
+```{r fig.height=9, fig.width=17, fig.align='center', echo=FALSE}
 changing_t_window=11
 changing_s_window=7
 snaive_forecast <- snaive(unemployment_ts)
 stlf_changing_naive_robust_forecast <- stlf(unemployment_ts, method='naive', t.window=changing_t_window, s.window=changing_s_window, robust = TRUE)
-p1 <- autoplot(snaive_forecast)
-p2 <- autoplot(stlf_changing_naive_robust_forecast)
+p1 <- autoplot(snaive_forecast) +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
+p2 <- autoplot(stlf_changing_naive_robust_forecast) +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=1)
 ```
 Case Study: U.S. Inflation Figures
@@ -373,7 +412,7 @@ Inflation data, based on the Consumer Price Index, is another data point that ch
 <table>
 <tr>
 <td>
-```{r fig.height=6, fig.width=16, fig.align='center', echo=FALSE}
+```{r fig.height=8, fig.width=18, fig.align='center', echo=FALSE}
 
 inflation <- read.ts("https://raw.githubusercontent.com/stiltsie/cuny/master/inflation.csv", header = TRUE, sep = ",")
 inflation_ts <- ts(inflation[1,], start = c(2016, 1), frequency = 12)
@@ -382,8 +421,20 @@ inflation_dec <- decompose(inflation_ts, type="multiplicative")
 inflation_dec2 <- seas(inflation_ts)
 
 p1 <- inflation_ts %>% decompose(type="multiplicative") %>%
-  autoplot() + xlab("Year") + ggtitle("Inflation data: classical multiplicative decomposition")
-p2 <- inflation_ts %>% seas(x11="") %>% autoplot() + ggtitle("Inflation data: X11 decomposition")
+  autoplot() + xlab("Year") + ggtitle("Inflation data: classical multiplicative decomposition")  +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=18),
+        axis.text = element_text(size=14),
+        strip.text = element_text(size=16),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
+p2 <- inflation_ts %>% seas(x11="") %>% autoplot() + ggtitle("Inflation data: X11 decomposition")  +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=18),
+        axis.text = element_text(size=14),
+        strip.text = element_text(size=16),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 
 grid.arrange(p1, p2, ncol=2)
 
@@ -395,13 +446,23 @@ grid.arrange(p1, p2, ncol=2)
 U.S. Inflation Forecast
 ========================================================
 
-```{r fig.height=8, fig.width=18, fig.align='center', echo=FALSE}
+```{r fig.height=9, fig.width=17, fig.align='center', echo=FALSE}
 changing_t_window=11
 changing_s_window=7
 snaive_forecast <- snaive(inflation_ts)
 stlf_changing_naive_robust_forecast <- stlf(inflation_ts, method='naive', t.window=changing_t_window, s.window=changing_s_window, robust = TRUE)
-p1 <- autoplot(snaive_forecast)
-p2 <- autoplot(stlf_changing_naive_robust_forecast)
+p1 <- autoplot(snaive_forecast) +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
+p2 <- autoplot(stlf_changing_naive_robust_forecast) +
+  theme(axis.title = element_text(size=20),
+        title = element_text(size=20),
+        axis.text = element_text(size=12),
+        legend.text = element_text(size=16)) + 
+  theme(plot.background = element_rect(fill = 'grey79'))
 grid.arrange(p1, p2, ncol=1)
 ```
 

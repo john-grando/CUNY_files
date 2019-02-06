@@ -5,7 +5,13 @@ body {
 }
 
 .reveal h1 {
-  line-height: 100px;
+  font-size: 50px;
+  line-height: 60px;
+}
+
+.reveal h3 {
+  font-size: 40px;
+  line-height: 45px;
 }
 
 .reveal td {
@@ -13,7 +19,7 @@ body {
 }
 
 .center-text-large p {
-  font-size: 90px;
+  font-size: 60px;
   text-align: center;
 }
 
@@ -23,6 +29,11 @@ body {
 
 .reveal table, .reveal table td, .reveal table th {
   border-style: none;
+}
+
+.reveal p {
+  line-height: 35px;
+  font-size: 30px;
 }
 
 </style>
@@ -45,7 +56,7 @@ Overview - Time Series Decomposition
 Decomposition of data into separate parts
 <table>
 <tr>
-<td style="vertical-align:middle;" width=15%>
+<td style="vertical-align:middle;" width=25%>
 <ul>
 <li>Trend-cycle (Trend)</li>
 <li>Seasonality</li>
@@ -130,6 +141,24 @@ Classical Decomposition
 </tr>
 </table>
 
+Limitations of Classical Decomposition Method
+========================================================
+
+<table>
+<tr>
+<td>
+
+<br><br>
+  <ol>
+    <li>Data Gaps at Beginning/End of Time Series </li>
+    <li>Over-Smoothing of Rapid Changes</li>
+    <li>Assumes Same Seasonal Changes Over Time</li>
+    <li>Does Not Adapt to Unusual Values</li>
+  </ol>
+</td>
+</tr>
+</table>
+
 X11
 ========================================================
 
@@ -198,6 +227,22 @@ U.S. Unemployment Forecast
 ========================================================
 
 <img src="data624_HA_ch6_presentation-figure/unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
+Case Study: U.S. Inflation Figures
+========================================================
 
+Inflation data, based on the Consumer Price Index, is another data point that changes by season. Again it adjusts the data using the SEATS method but instead we look below at the X11 method as an example.
+
+<table>
+<tr>
+<td>
+<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" style="display: block; margin: auto;" />
+</td>
+</tr>
+</table>
+
+U.S. Inflation Forecast
+========================================================
+
+<img src="data624_HA_ch6_presentation-figure/unnamed-chunk-13-1.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
 
 
